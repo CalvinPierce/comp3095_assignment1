@@ -1,0 +1,2 @@
+This txt file is about COMP3104, a DevOps course taken at George Brown College
+
