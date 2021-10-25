@@ -1,2 +1,4 @@
-This txt file is about COMP3104, a DevOps course taken at George Brown College
+This txt file is about COMP3104, a DevOps course taken at George Brown College.
+
+For more information, contact George Brown Colelge!!
 
