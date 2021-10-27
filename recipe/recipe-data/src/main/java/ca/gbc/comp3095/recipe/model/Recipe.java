@@ -15,6 +15,7 @@ public class Recipe {
     @ElementCollection
     private List<String> ingredients = new ArrayList<String>();
     private String instructions;
+    private Date dateAdded;
 
     @ManyToMany
     @JoinTable(name = "recipe_like",
@@ -28,7 +29,7 @@ public class Recipe {
     public Recipe() {
     }
 
-    public Recipe(Long id, String name, String prepTime, String cookTime, String totalTime, List<String> ingredients, String instructions) {
+    public Recipe(Long id, String name, String prepTime, String cookTime, String totalTime, List<String> ingredients, String instructions, Date dateAdded) {
         this.id = id;
         this.name = name;
         this.prepTime = prepTime;
@@ -36,9 +37,10 @@ public class Recipe {
         this.totalTime = totalTime;
         this.ingredients = ingredients;
         this.instructions = instructions;
+        this.dateAdded = dateAdded;
     }
 
-    public Recipe(Long id, String name, String prepTime, String cookTime, String totalTime, List<String> ingredients, String instructions, Set<User> likedByUsers, Set<User> author) {
+    public Recipe(Long id, String name, String prepTime, String cookTime, String totalTime, List<String> ingredients, String instructions, Date dateAdded, Set<User> likedByUsers, Set<User> author) {
         this.id = id;
         this.name = name;
         this.prepTime = prepTime;
@@ -46,6 +48,7 @@ public class Recipe {
         this.totalTime = totalTime;
         this.ingredients = ingredients;
         this.instructions = instructions;
+        this.dateAdded = dateAdded;
         this.likedByUsers = likedByUsers;
         this.author = author;
     }
@@ -94,7 +97,7 @@ public class Recipe {
         return ingredients;
     }
 
-    public void setIngredients(ArrayList<String> ingredients) {
+    public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -104,6 +107,14 @@ public class Recipe {
 
     public void setInstructions(String instructions) {
         this.instructions = instructions;
+    }
+
+    public Date getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Date dateAdded) {
+        this.dateAdded = dateAdded;
     }
 
     public Set<User> getLikedByUsers() {
