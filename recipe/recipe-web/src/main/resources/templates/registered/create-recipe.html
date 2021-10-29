@@ -1,10 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Create Recipe</title>
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
 </head>
 <body>
-
+<div align="center">
+    <h1>Create Recipe</h1>
+    <br />
+    <form th:action="@{/registered/save}" th:object="${recipe}" method="post">
+        <table border="0" cellpadding="10" id="table">
+            <tr>
+                <td>Recipe Name:</td>
+                <td><input type="text" th:field="*{name}" th:required="true"
+                           th:oninvalid="this.setCustomValidity('Recipe name cannot be blank')" th:oninput="this.setCustomValidity('')" /></td>
+            </tr>
+            <tr>
+                <td>Prep Time:</td>
+                <td><input type="number" step="1" th:field="*{prepTime}" th:required="true"
+                           th:oninvalid="this.setCustomValidity('Recipe prep time cannot be blank')" th:oninput="this.setCustomValidity('')" /></td>
+            </tr>
+            <tr>
+                <td>Cook Time:</td>
+                <td><input type="number" step="1" th:field="*{cookTime}" th:required="true"
+                           th:oninvalid="this.setCustomValidity('Recipe cook time cannot be blank')" th:oninput="this.setCustomValidity('')" /></td>
+            </tr>
+            <tr>
+                <td>Ingredients:</td>
+                <td><textarea class="form-control" th:field="*{ingredients}" rows="3" th:required="true"
+                              th:oninvalid="this.setCustomValidity('Recipe ingredients cannot be blank')" th:oninput="this.setCustomValidity('')"></textarea></td>
+            </tr>
+            <tr>
+                <td>Instructions:</td>
+                <td><input type="text" th:field="*{instructions}" th:required="true"
+                           th:oninvalid="this.setCustomValidity('Recipe instructions cannot be blank')" th:oninput="this.setCustomValidity('')" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button type="submit">Save</button></td>
+            </tr>
+        </table>
+    </form>
+</div>
 </body>
 </html>

@@ -25,10 +25,6 @@ public class User {
     @ManyToMany(mappedBy = "likedByUsers")
     private Set<Recipe> likedRecipes = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "recipe_id")
-    private User author;
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
@@ -46,7 +42,7 @@ public class User {
         this.password = password;
     }
 
-    public User(Long id, String firstName, String lastName, String address, String postalCode, String username, String password, Set<Recipe> likedRecipes, User author, Set<Role> roles) {
+    public User(Long id, String firstName, String lastName, String address, String postalCode, String username, String password, Set<Recipe> likedRecipes, Set<Role> roles) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -55,7 +51,6 @@ public class User {
         this.username = username;
         this.password = password;
         this.likedRecipes = likedRecipes;
-        this.author = author;
         this.roles = roles;
     }
 
@@ -123,14 +118,6 @@ public class User {
         this.likedRecipes = likedRecipes;
     }
 
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
     public Set<Role> getRoles() {
         return roles;
     }
@@ -158,8 +145,6 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", likedRecipes=" + likedRecipes +
-                ", author=" + author +
-                ", roles=" + roles +
                 '}';
     }
 
