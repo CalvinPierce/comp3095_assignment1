@@ -1,14 +1,56 @@
 package ca.gbc.comp3095.recipe.controllers;
 
+import ca.gbc.comp3095.recipe.model.Role;
+import ca.gbc.comp3095.recipe.model.User;
+import ca.gbc.comp3095.recipe.repositories.RoleRepository;
+import ca.gbc.comp3095.recipe.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.expression.Arrays;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class IndexController {
 
-    @RequestMapping({"", "/", "index.html"})
-    public String index() {
-        return "index";
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @RequestMapping({"/register", "register.html"})
+    public String index(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "/register";
+    }
+
+    @PostMapping(value = "/save")
+    public String save(User user, Model model) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        user.setRoles(new HashSet<>(roleRepository.findByName("user")));
+        user.setEnabled(true);
+        userRepository.save(user);
+        return "/login";
+    }
+
+    @RequestMapping(value = {"", "/", "/login", "/login.html"}, method = RequestMethod.GET)
+    public String showLoginPage() {
+        Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+        if(authentication==null || authentication instanceof AnonymousAuthenticationToken) {
+            return "/login";
+        }
+        return "redirect:/registered/";
     }
 
 }

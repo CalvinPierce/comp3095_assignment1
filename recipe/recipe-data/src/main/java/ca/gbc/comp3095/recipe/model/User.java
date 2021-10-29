@@ -1,5 +1,7 @@
 package ca.gbc.comp3095.recipe.model;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -9,7 +11,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstName;
     private String lastName;
@@ -18,6 +20,7 @@ public class User {
     @Column(unique = true)
     private String username;
     private String password;
+    private boolean enabled;
 
     @ManyToMany(mappedBy = "likedByUsers")
     private Set<Recipe> likedRecipes = new HashSet<>();
@@ -25,6 +28,10 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "recipe_id")
     private User author;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -39,7 +46,7 @@ public class User {
         this.password = password;
     }
 
-    public User(Long id, String firstName, String lastName, String address, String postalCode, String username, String password, Set<Recipe> likedRecipes, User author) {
+    public User(Long id, String firstName, String lastName, String address, String postalCode, String username, String password, Set<Recipe> likedRecipes, User author, Set<Role> roles) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -49,6 +56,7 @@ public class User {
         this.password = password;
         this.likedRecipes = likedRecipes;
         this.author = author;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -123,6 +131,22 @@ public class User {
         this.author = author;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -135,6 +159,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", likedRecipes=" + likedRecipes +
                 ", author=" + author +
+                ", roles=" + roles +
                 '}';
     }
 
