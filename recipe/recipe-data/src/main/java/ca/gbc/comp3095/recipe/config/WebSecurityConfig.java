@@ -49,8 +49,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2-console/**", "/", "/register", "/login", "/save").permitAll().anyRequest().authenticated().and().formLogin()
                 .loginPage("/login").usernameParameter("username").passwordParameter("password")
                 .permitAll()
-                .defaultSuccessUrl("/registered/home.html", true)
-                .and().logout().permitAll().and().exceptionHandling().accessDeniedPage("/403");
+                .defaultSuccessUrl("/registered/index", true)
+                .and().logout().permitAll()
+                .logoutUrl("/doLogout")
+                .logoutSuccessUrl("/logout").and().exceptionHandling().accessDeniedPage("/403");
 
         http.csrf().disable();
         http.headers().frameOptions().disable();

@@ -53,4 +53,9 @@ public class IndexController {
         return "redirect:/registered/";
     }
 
+    @RequestMapping({"/logout", "logout.html"})
+    public String logout() {
+        return "/logout";
+    }
+
 }
