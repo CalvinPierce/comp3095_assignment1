@@ -6,14 +6,13 @@ import java.util.*;
 @Entity
 public class Recipe {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String prepTime;
-    private String cookTime;
-    private String totalTime;
-    @ElementCollection
-    private List<String> ingredients = new ArrayList<String>();
+    private int prepTime;
+    private int cookTime;
+    private int totalTime;
+    private String ingredients;
     private String instructions;
     private Date dateAdded;
 
@@ -23,13 +22,14 @@ public class Recipe {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> likedByUsers = new HashSet<>();
 
-    @OneToMany(mappedBy = "author")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "users_recipes", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "recipe_id"))
     private Set<User> author = new HashSet<>();
 
     public Recipe() {
     }
 
-    public Recipe(Long id, String name, String prepTime, String cookTime, String totalTime, List<String> ingredients, String instructions, Date dateAdded) {
+    public Recipe(Long id, String name, int prepTime, int cookTime, int totalTime, String ingredients, String instructions, Date dateAdded) {
         this.id = id;
         this.name = name;
         this.prepTime = prepTime;
@@ -40,7 +40,7 @@ public class Recipe {
         this.dateAdded = dateAdded;
     }
 
-    public Recipe(Long id, String name, String prepTime, String cookTime, String totalTime, List<String> ingredients, String instructions, Date dateAdded, Set<User> likedByUsers, Set<User> author) {
+    public Recipe(Long id, String name, int prepTime, int cookTime, int totalTime, String ingredients, String instructions, Date dateAdded, Set<User> likedByUsers, Set<User> author) {
         this.id = id;
         this.name = name;
         this.prepTime = prepTime;
@@ -69,35 +69,35 @@ public class Recipe {
         this.name = name;
     }
 
-    public String getPrepTime() {
+    public int getPrepTime() {
         return prepTime;
     }
 
-    public void setPrepTime(String prepTime) {
+    public void setPrepTime(int prepTime) {
         this.prepTime = prepTime;
     }
 
-    public String getCookTime() {
+    public int getCookTime() {
         return cookTime;
     }
 
-    public void setCookTime(String cookTime) {
+    public void setCookTime(int cookTime) {
         this.cookTime = cookTime;
     }
 
-    public String getTotalTime() {
+    public int getTotalTime() {
         return totalTime;
     }
 
-    public void setTotalTime(String totalTime) {
+    public void setTotalTime(int totalTime) {
         this.totalTime = totalTime;
     }
 
-    public List<String> getIngredients() {
+    public String getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<String> ingredients) {
+    public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -143,8 +143,8 @@ public class Recipe {
                 ", totalTime='" + totalTime + '\'' +
                 ", ingredients=" + ingredients +
                 ", instructions='" + instructions + '\'' +
-                ", likedByUsers=" + likedByUsers +
                 ", author=" + author +
+                ", likedByUsers=" + likedByUsers +
                 '}';
     }
 
