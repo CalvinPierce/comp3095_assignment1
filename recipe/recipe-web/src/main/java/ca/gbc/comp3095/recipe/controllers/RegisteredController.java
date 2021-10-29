@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class RegisteredController {
 
-    @RequestMapping({"", "/", "index.html"})
+    @RequestMapping({"", "/", "index", "index.html"})
     public String index() {
         return "registered/index";
     }
@@ -15,11 +15,6 @@ public class RegisteredController {
     @RequestMapping({"/create", "create-recipe.html"})
     public String create() {
         return "registered/create-recipe";
-    }
-
-    @RequestMapping({"/logout", "logout.html"})
-    public String logout() {
-        return "registered/logout";
     }
 
     @RequestMapping({"/plan", "plan-meal.html"})

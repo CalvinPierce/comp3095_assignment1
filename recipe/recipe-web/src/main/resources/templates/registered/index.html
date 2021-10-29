@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Registered Home Page</title>
+    <title>Welcome User</title>
 </head>
 <body>
+<form th:action="@{/doLogout}" method="post">
+    <input type="submit" value="Logout" />
+</form>
 
 </body>
 </html>
