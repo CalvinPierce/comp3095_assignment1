@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register User</title>
+</head>
+<body>
+<div align="center">
+    <h1>Register User</h1>
+    <br />
+    <form action="#" th:action="@{/save}" th:object="${user}" method="post">
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>First Name:</td>
+                <td><input type="text" th:field="*{firstName}" id="firstName" th:required="true"
+                           th:oninvalid="this.setCustomValidity('First name cannot be blank')" th:oninput="this.setCustomValidity('')" /></td>
+            </tr>
+            <tr>
+                <td>Last Name:</td>
+                <td><input type="text" th:field="*{lastName}" id="lastName" th:required="true"
+                           th:oninvalid="this.setCustomValidity('Last name cannot be blank')" th:oninput="this.setCustomValidity('')" /></td>
+            </tr>
+            <tr>
+                <td>Address:</td>
+                <td><input type="text" th:field="*{address}" id="address" /></td>
+            </tr>
+            <tr>
+                <td>Postal Code:</td>
+                <td><input type="text" th:field="*{postalCode}" id="postalCode" /></td>
+            </tr>
+            <tr>
+                <td>Username:</td>
+                <td><input type="text" th:field="*{username}" id="username" th:required="true"
+                           th:oninvalid="this.setCustomValidity('Username cannot be blank')" th:oninput="this.setCustomValidity('')" /></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input th:type="password" th:field="*{password}" id="password" th:required="true"
+                           th:oninvalid="this.setCustomValidity('Password cannot be blank')" th:oninput="this.setCustomValidity('')" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button type="submit">Register</button></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
