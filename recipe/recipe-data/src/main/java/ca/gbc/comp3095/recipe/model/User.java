@@ -1,8 +1,15 @@
 package ca.gbc.comp3095.recipe.model;
 
-import com.sun.istack.NotNull;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.Column;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
