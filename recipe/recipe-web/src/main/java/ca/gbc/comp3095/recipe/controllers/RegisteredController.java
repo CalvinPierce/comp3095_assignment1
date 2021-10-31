@@ -4,6 +4,7 @@ import ca.gbc.comp3095.recipe.model.Recipe;
 import ca.gbc.comp3095.recipe.model.User;
 import ca.gbc.comp3095.recipe.repositories.RecipeRepository;
 import ca.gbc.comp3095.recipe.repositories.UserRepository;
+import org.hibernate.engine.jdbc.ClobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -53,7 +54,7 @@ public class RegisteredController {
         return "registered/plan-meal";
     }
 
-    @RequestMapping({"/search", "search-recipe.html"})
+    @RequestMapping({"/search", "/search-recipe", "search-recipe.html"})
     public String search() {
         return "registered/search-recipe";
     }

@@ -12,7 +12,9 @@ public class Recipe {
     private int prepTime;
     private int cookTime;
     private int totalTime;
+    @Lob
     private String ingredients;
+    @Lob
     private String instructions;
     private Date dateAdded;
 
