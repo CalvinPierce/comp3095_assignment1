@@ -1,6 +1,5 @@
 package ca.gbc.comp3095.recipe.controllers;
 
-import ca.gbc.comp3095.recipe.model.Role;
 import ca.gbc.comp3095.recipe.model.User;
 import ca.gbc.comp3095.recipe.repositories.RoleRepository;
 import ca.gbc.comp3095.recipe.repositories.UserRepository;
@@ -11,11 +10,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.expression.Arrays;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.HashSet;
-import java.util.Set;
 
 @Controller
 public class IndexController {
@@ -46,8 +45,8 @@ public class IndexController {
 
     @RequestMapping(value = {"", "/", "/login", "/login.html"}, method = RequestMethod.GET)
     public String showLoginPage() {
-        Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
-        if(authentication==null || authentication instanceof AnonymousAuthenticationToken) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
             return "/login";
         }
         return "redirect:/registered/";
