@@ -54,7 +54,7 @@
         <div class="row mb-3">
             <label class="col-sm-2" th:text="'Password:'"></label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" th:field="*{password}" th:required="true"
+                <input type="password" class="form-control" th:field="*{password}" th:required="true"
                        th:oninvalid="this.setCustomValidity('Password cannot be blank')"
                        th:oninput="this.setCustomValidity('')"/>
             </div>
