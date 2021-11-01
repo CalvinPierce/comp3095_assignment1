@@ -1,3 +1,12 @@
+/**********************************************************************************
+ * Project: < comp3095_assignment1 >
+ * Assignment: < assignment 1 >
+ * Author(s): < Calvin Pierce>
+ * Student Number: < 101253832 >
+ * Date: November 1st 2021
+ * Description: This java file implements the user details interface needed for spring
+ * security authentication.
+ **********************************************************************************/
 package ca.gbc.comp3095.recipe.config;
 
 import ca.gbc.comp3095.recipe.model.User;
