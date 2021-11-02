@@ -18,6 +18,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.http.HttpRequest;
+import org.springframework.web.HttpRequestHandler;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
 import java.util.Date;
 import java.util.HashSet;
 
@@ -61,6 +67,26 @@ public class RegisteredController {
     public String search() {
         return "registered/search-recipe";
     }
+
+    @PostMapping(value = "/name")
+    public String name(HttpServletRequest request, Model model){
+        String searchName = request.getParameter("name");
+        model.addAttribute("searchString", "You searched for " + searchName);
+        model.addAttribute("recipes", recipeRepository.findByNameIgnoreCase(searchName));
+        List<Recipe> resp = recipeRepository.findByNameIgnoreCase(searchName);
+        model.addAttribute("nameCount", -1);
+        model.addAttribute("count", resp.size());
+        if(resp.size() >0)
+        {
+            model.addAttribute("recipes", resp);
+            return "/registered/index";
+        }
+        else {
+            model.addAttribute("message", "No record Found");
+            return "/registered/index";
+        }
+    }
+
 
     @RequestMapping({"/view-profile", "view-profile.html"})
     public String viewProfile() {
