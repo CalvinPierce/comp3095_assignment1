@@ -24,6 +24,11 @@
         <java.version>11</java.version>
     </properties>
 
+    <scm>
+        <developerConnection>scm:git:https://github.com/CalvinPierce/comp3095_assignment1.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
     <build>
         <plugins>
             <plugin>
