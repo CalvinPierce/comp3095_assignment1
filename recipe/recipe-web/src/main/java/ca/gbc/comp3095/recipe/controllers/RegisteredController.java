@@ -60,11 +60,6 @@ public class RegisteredController {
         return "registered/plan-meal";
     }
 
-/*    @RequestMapping({"/search", "/search-recipe", "search-recipe.html"})
-    public String search() {
-        return "registered/search-recipe";
-    }*/
-
     @RequestMapping(value = {"search", "/search-recipe", "/search-recipe.html"}, method = RequestMethod.GET)
     public String search(Model model) {
         model.addAttribute("recipe", new Recipe());
