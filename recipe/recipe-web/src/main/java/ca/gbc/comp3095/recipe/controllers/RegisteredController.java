@@ -1,11 +1,11 @@
-/* *********************************************************************************
+/**********************************************************************************
  * Project: < comp3095_assignment1 >
  * Assignment: < assignment 1 >
  * Author(s): < Calvin Pierce>
  * Student Number: < 101253832 >
  * Date: November 1st 2021
  * Description: This java file is used to control all pages available to registered users.
- ********************************************************************************* */
+ **********************************************************************************/
 package ca.gbc.comp3095.recipe.controllers;
 
 import ca.gbc.comp3095.recipe.model.Recipe;
@@ -17,13 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.http.HttpRequest;
-import org.springframework.web.HttpRequestHandler;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
 import java.util.Date;
 import java.util.HashSet;
 
@@ -63,30 +60,28 @@ public class RegisteredController {
         return "registered/plan-meal";
     }
 
-    @RequestMapping({"/search", "/search-recipe", "search-recipe.html"})
-    public String search() {
+    @RequestMapping(value = {"search", "/search-recipe", "/search-recipe.html"}, method = RequestMethod.GET)
+    public String search(Model model) {
+        model.addAttribute("recipe", new Recipe());
         return "registered/search-recipe";
     }
 
-    @PostMapping(value = "/name")
-    public String name(HttpServletRequest request, Model model){
+    @RequestMapping(value = {"search", "/search-recipe", "/search-recipe.html"}, method = RequestMethod.POST)
+    public String search(HttpServletRequest request, Model model) {
         String searchName = request.getParameter("name");
         model.addAttribute("searchString", "You searched for " + searchName);
         model.addAttribute("recipes", recipeRepository.findByNameIgnoreCase(searchName));
         List<Recipe> resp = recipeRepository.findByNameIgnoreCase(searchName);
         model.addAttribute("nameCount", -1);
         model.addAttribute("count", resp.size());
-        if(resp.size() >0)
-        {
+        if (resp.size() > 0) {
             model.addAttribute("recipes", resp);
-            return "/registered/index";
-        }
-        else {
+            return "/registered/search-recipe";
+        } else {
             model.addAttribute("message", "No record Found");
-            return "/registered/index";
+            return "/registered/search-recipe";
         }
     }
-
 
     @RequestMapping({"/view-profile", "view-profile.html"})
     public String viewProfile() {
