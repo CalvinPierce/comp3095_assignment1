@@ -16,6 +16,6 @@ import java.util.Set;
 
 public interface RecipeRepository extends CrudRepository<Recipe, Long> {
     Set<Recipe> findByName(String name);
-    
+
     List<Recipe> findByNameIgnoreCase(String name);
 }
