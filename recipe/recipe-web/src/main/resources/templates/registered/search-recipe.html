@@ -10,9 +10,60 @@
     <meta charset="UTF-8">
     <title>Search Recipe</title>
 </head>
-<body>
+<body class="text-center">
+
+<h1>Recipe Search</h1>
+<form th:action="@{/registered/search}" th:object="${recipe}" method="post">
+    <div class="row mb-3">
+        <label class="col-sm-2"></label><label class="col-sm-2"></label>
+        <div class="col-5">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="name"/>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-sm-2"></label><label class="col-sm-2"></label>
+        <div class="col-sm-4">
+            <button class="btn btn-lg btn-dark" type="submit" th:text="Search"></button>
+        </div>
+    </div>
+</form>
+
+<div class="container p-5 mt-2" th:if="${count &gt; 0}">
+    <p th:text="${searchString}"></p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Prep Time</th>
+            <th>Cook Time</th>
+            <th>Total Time</th>
+            <th>Ingredients</th>
+            <th>Instructions</th>
+            <th>Date Added</th>
+            <th>Author</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="recipe :${recipes}">
+            <td th:text="${recipe.name}"></td>
+            <td th:text="${recipe.prepTime}"></td>
+            <td th:text="${recipe.cookTime}"></td>
+            <td th:text="${recipe.totalTime}"></td>
+            <td th:text="${recipe.ingredients}"></td>
+            <td th:text="${recipe.instructions}"></td>
+            <td th:text="${recipe.dateAdded}"></td>
+            <td th:each="a :${recipe.author}" th:text="${a.firstName}+' '+${a.lastName}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container p-5 -mt-3" th:if="${count}==0 ">
+    <p th:text="${searchString}"></p>
+    <h4 th:text="${message}"></h4>
+</div>
 
 <form th:action="@{/doLogout}" method="post">
+    <br>
     <button class="btn btn-lg btn-dark" type="submit" th:text="'Logout'"></button>
 </form>
 </body>

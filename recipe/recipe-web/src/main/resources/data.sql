@@ -12,17 +12,17 @@ VALUES (1, 1);
 
 INSERT INTO recipe (id, name, prep_time, cook_time, total_time, ingredients, instructions, date_added)
 VALUES ('1', 'Pancakes', 5, 10, 15,
-        '1 cup all-purpose flour
+        '1 cup all-purpose flour,
 
-2 tablespoons white sugar
+2 tablespoons white sugar,
 
-2 teaspoons baking powder
+2 teaspoons baking powder,
 
-1 teaspoon salt
+1 teaspoon salt,
 
-1 egg, beaten
+1 egg, beaten,
 
-1 cup milk
+1 cup milk,
 
 2 tablespoons vegetable oil', 'Step 1
 In a large bowl, mix flour, sugar, baking powder and salt. Make a well in the center, and pour in milk, egg and oil. Mix until smooth.
