@@ -1,1 +1,5 @@
 Started working on search recipe task...
+
+1. Added search form, theme and table to recipe search under templates,
+2. Added post mapping and search function in RegisteredController,
+3. Updated RecipeRepository with recipe list for search results
