@@ -46,9 +46,9 @@
         <tbody>
         <tr th:each="recipe :${recipes}">
             <td th:text="${recipe.name}"></td>
-            <td th:text="${recipe.prepTime}"></td>
-            <td th:text="${recipe.cookTime}"></td>
-            <td th:text="${recipe.totalTime}"></td>
+            <td th:text="${recipe.prepTime} + ' minutes'"></td>
+            <td th:text="${recipe.cookTime} + ' minutes'"></td>
+            <td th:text="${recipe.totalTime} + ' minutes'"></td>
             <td th:text="${recipe.ingredients}"></td>
             <td th:text="${recipe.instructions}"></td>
             <td th:text="${recipe.dateAdded}"></td>

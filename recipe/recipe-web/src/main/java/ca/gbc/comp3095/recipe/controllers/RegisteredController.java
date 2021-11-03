@@ -11,6 +11,7 @@ package ca.gbc.comp3095.recipe.controllers;
 import ca.gbc.comp3095.recipe.model.Recipe;
 import ca.gbc.comp3095.recipe.repositories.RecipeRepository;
 import ca.gbc.comp3095.recipe.repositories.UserRepository;
+import ca.gbc.comp3095.recipe.services.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,9 @@ public class RegisteredController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    SearchService service;
 
     @RequestMapping({"", "/", "index", "index.html"})
     public String index() {
@@ -70,17 +74,15 @@ public class RegisteredController {
     public String search(HttpServletRequest request, Model model) {
         String searchName = request.getParameter("name");
         model.addAttribute("searchString", "You searched for " + searchName);
-        model.addAttribute("recipes", recipeRepository.findByNameIgnoreCase(searchName));
-        List<Recipe> resp = recipeRepository.findByNameIgnoreCase(searchName);
+        List<Recipe> resp = service.listAll(searchName);
         model.addAttribute("nameCount", -1);
         model.addAttribute("count", resp.size());
         if (resp.size() > 0) {
             model.addAttribute("recipes", resp);
-            return "/registered/search-recipe";
         } else {
             model.addAttribute("message", "No record Found");
-            return "/registered/search-recipe";
         }
+        return "/registered/search-recipe";
     }
 
     @RequestMapping({"/view-profile", "view-profile.html"})
