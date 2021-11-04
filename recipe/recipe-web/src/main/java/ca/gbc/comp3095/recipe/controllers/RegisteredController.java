@@ -86,12 +86,18 @@ public class RegisteredController {
     }
 
     @RequestMapping({"/view-profile", "view-profile.html"})
-    public String viewProfile() {
+    public String viewProfile(Model model, Authentication authentication) {
+        model.addAttribute("user", userRepository.findByUsername(authentication.getName()));
+
+        List<Recipe> listRecipes = service.listAll("");
+        model.addAttribute("recipes", listRecipes);
         return "registered/view-profile";
     }
 
     @RequestMapping({"/view-recipe", "view-recipe.html"})
-    public String viewRecipe() {
+    public String viewRecipe(Model model) {
+        List<Recipe> listRecipes = service.listAll("");
+        model.addAttribute("recipes", listRecipes);
         return "registered/view-recipe";
     }
 }
