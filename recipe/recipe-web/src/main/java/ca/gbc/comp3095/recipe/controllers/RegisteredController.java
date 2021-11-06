@@ -87,10 +87,10 @@ public class RegisteredController {
 
     @RequestMapping({"/view-profile", "view-profile.html"})
     public String viewProfile(Model model, Authentication authentication) {
-        model.addAttribute("user", userRepository.findByUsername(authentication.getName()));
-
-        List<Recipe> listRecipes = service.listAll("");
+        model.addAttribute("user", userRepository.getUserByUsername(authentication.getName()));
+        Set<Recipe> listRecipes = userRepository.getUserByUsername(authentication.getName()).getLikedRecipes();
         model.addAttribute("recipes", listRecipes);
+        model.addAttribute("count", listRecipes.size());
         return "registered/view-profile";
     }
 
