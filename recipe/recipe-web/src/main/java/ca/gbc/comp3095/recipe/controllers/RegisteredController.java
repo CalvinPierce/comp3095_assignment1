@@ -3,12 +3,14 @@
  * Assignment: < assignment 1 >
  * Author(s): < Calvin Pierce, Ikechukwu Emmanuel Okonkwo>
  * Student Number: < 101253832, 101277584 >
- * Date: November 6th 2021
+ * Date: November 7th 2021
  * Description: This java file is used to control all pages available to registered users.
  **********************************************************************************/
 package ca.gbc.comp3095.recipe.controllers;
 
+import ca.gbc.comp3095.recipe.model.Meal;
 import ca.gbc.comp3095.recipe.model.Recipe;
+import ca.gbc.comp3095.recipe.repositories.MealRepository;
 import ca.gbc.comp3095.recipe.repositories.RecipeRepository;
 import ca.gbc.comp3095.recipe.repositories.SearchRepository;
 import ca.gbc.comp3095.recipe.repositories.UserRepository;
@@ -36,6 +38,9 @@ public class RegisteredController {
     UserRepository userRepository;
 
     @Autowired
+    MealRepository mealRepository;
+
+    @Autowired
     SearchRepository searchRepository;
 
     @Autowired
@@ -53,8 +58,8 @@ public class RegisteredController {
         return "registered/create-recipe";
     }
 
-    @PostMapping(value = "/save")
-    public String save(Recipe recipe, Authentication authentication) {
+    @PostMapping(value = "/saveRecipe")
+    public String saveRecipe(Recipe recipe, Authentication authentication) {
         recipe.setAuthor(userRepository.getUserByUsername(authentication.getName()));
         recipe.setDateAdded(new Date());
         recipe.setTotalTime(recipe.getPrepTime() + recipe.getCookTime());
@@ -63,8 +68,26 @@ public class RegisteredController {
     }
 
     @RequestMapping({"/plan", "/plan-meal", "plan-meal.html"})
-    public String plan() {
+    public String plan(Model model, Authentication authentication) {
+        model.addAttribute("userMeals", searchRepository.findByUser(authentication.getName()));
         return "registered/plan-meal";
+    }
+
+    @RequestMapping({"/create-meal", "create-meal.html"})
+    public String createMeal(Model model) {
+        Meal meal = new Meal();
+        model.addAttribute("meal", meal);
+        List<Recipe> listRecipes = service.listAll("");
+        model.addAttribute("recipes", listRecipes);
+        return "registered/create-meal";
+    }
+
+    @PostMapping(value = "/saveMeal")
+    public String saveMeal(Meal meal, Authentication authentication, Model model) {
+        meal.setUser(userRepository.getUserByUsername(authentication.getName()));
+        mealRepository.save(meal);
+        model.addAttribute("userMeals", searchRepository.findByUser(authentication.getName()));
+        return "/registered/plan-meal";
     }
 
     @RequestMapping(value = {"search", "/search-recipe", "/search-recipe.html"}, method = RequestMethod.GET)

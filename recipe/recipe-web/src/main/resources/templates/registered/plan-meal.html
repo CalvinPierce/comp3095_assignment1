@@ -8,10 +8,32 @@
             crossorigin="anonymous"></script>
     <div th:replace="header :: myheader"></div>
     <meta charset="UTF-8">
-    <title>Plan Meal</title>
+    <title>View Planned Meals</title>
 </head>
-<body>
-
+<body class="text-center">
+<h2 th:text="${#authentication.name} + '\'s Meals'" ></h2>
+<div class="container p-5 mt-2">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Recipe</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="meal :${userMeals}">
+            <td th:text="${meal.name}"></td>
+            <td th:text="${meal.date}"></td>
+            <td th:text="${meal.recipe.name}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<form th:action="@{/registered/create-meal}" method="post">
+    <button class="btn btn-lg btn-dark" type="submit" th:text="'Plan New Meal'"></button>
+</form>
+<br>
 <form th:action="@{/doLogout}" method="post">
     <button class="btn btn-lg btn-dark" type="submit" th:text="'Logout'"></button>
 </form>

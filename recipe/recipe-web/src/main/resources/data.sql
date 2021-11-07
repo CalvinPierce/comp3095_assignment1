@@ -33,3 +33,12 @@ Heat a lightly oiled griddle or frying pan over medium high heat. Pour or scoop 
 
 INSERT INTO users_recipes (user_id, recipe_id)
 VALUES (1, 1);
+
+INSERT INTO meal (id, date, name)
+VALUES (1, '2021-11-07', 'Breakfast');
+
+INSERT INTO meal_recipe (meal_id, recipe_id)
+VALUES (1, 1);
+
+INSERT INTO users_meals (meal_id, user_id)
+VALUES (1, 1);
