@@ -52,7 +52,7 @@
             <td th:text="${recipe.ingredients}"></td>
             <td th:text="${recipe.instructions}"></td>
             <td th:text="${recipe.dateAdded}"></td>
-            <td th:each="a :${recipe.author}" th:text="${a.firstName}+' '+${a.lastName}"></td>
+            <td th:text="${recipe.author.firstName} + ' ' + ${recipe.author.lastName}"></td>
         </tr>
         </tbody>
     </table>

@@ -3,21 +3,12 @@
  * Assignment: < assignment 1 >
  * Author(s): < Calvin Pierce>
  * Student Number: < 101253832 >
- * Date: November 1st 2021
+ * Date: November 6th 2021
  * Description: This java file is used to set the recipe entity in our h2 database.
  **********************************************************************************/
 package ca.gbc.comp3095.recipe.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
@@ -44,9 +35,9 @@ public class Recipe {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> likedByUsers = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "users_recipes", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "recipe_id"))
-    private Set<User> author = new HashSet<>();
+    private User author;
 
     public Recipe() {
     }
@@ -62,7 +53,7 @@ public class Recipe {
         this.dateAdded = dateAdded;
     }
 
-    public Recipe(Long id, String name, int prepTime, int cookTime, int totalTime, String ingredients, String instructions, Date dateAdded, Set<User> likedByUsers, Set<User> author) {
+    public Recipe(Long id, String name, int prepTime, int cookTime, int totalTime, String ingredients, String instructions, Date dateAdded, Set<User> likedByUsers, User author) {
         this.id = id;
         this.name = name;
         this.prepTime = prepTime;
@@ -147,11 +138,11 @@ public class Recipe {
         this.likedByUsers = likedByUsers;
     }
 
-    public Set<User> getAuthor() {
+    public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(Set<User> author) {
+    public void setAuthor(User author) {
         this.author = author;
     }
 
