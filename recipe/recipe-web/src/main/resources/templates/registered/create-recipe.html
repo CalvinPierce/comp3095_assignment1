@@ -26,7 +26,7 @@
 <body class="text-center">
 <h1>Create Recipe</h1>
 <br/>
-<form th:action="@{/registered/save}" th:object="${recipe}" method="post">
+<form th:action="@{/registered/saveRecipe}" th:object="${recipe}" method="post">
     <div class="row mb-3">
         <label class="col-sm-2" th:text="'Recipe Name:'"></label>
         <div class="col-sm-8">

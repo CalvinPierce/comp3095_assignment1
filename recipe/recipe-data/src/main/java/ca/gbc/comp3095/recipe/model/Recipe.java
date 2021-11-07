@@ -3,12 +3,22 @@
  * Assignment: < assignment 1 >
  * Author(s): < Calvin Pierce>
  * Student Number: < 101253832 >
- * Date: November 6th 2021
+ * Date: November 7th 2021
  * Description: This java file is used to set the recipe entity in our h2 database.
  **********************************************************************************/
 package ca.gbc.comp3095.recipe.model;
 
-import javax.persistence.*;
+import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;

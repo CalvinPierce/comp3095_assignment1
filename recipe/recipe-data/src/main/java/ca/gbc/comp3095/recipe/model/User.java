@@ -3,12 +3,22 @@
  * Assignment: < assignment 1 >
  * Author(s): < Calvin Pierce>
  * Student Number: < 101253832 >
- * Date: November 6th 2021
+ * Date: November 7th 2021
  * Description: This java file is used to set the user entity in our h2 database.
  **********************************************************************************/
 package ca.gbc.comp3095.recipe.model;
 
-import javax.persistence.*;
+import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
+import javax.persistence.Column;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -38,6 +48,9 @@ public class User {
     @OneToMany(mappedBy = "author")
     private Set<Recipe> recipes;
 
+    @OneToMany(mappedBy = "recipe")
+    private Set<Meal> meals;
+
     public User() {
     }
 
@@ -51,7 +64,7 @@ public class User {
         this.password = password;
     }
 
-    public User(Long id, String firstName, String lastName, String address, String postalCode, String username, String password, boolean enabled, Set<Recipe> likedRecipes, Set<Role> roles, Set<Recipe> recipes) {
+    public User(Long id, String firstName, String lastName, String address, String postalCode, String username, String password, boolean enabled, Set<Recipe> likedRecipes, Set<Role> roles, Set<Recipe> recipes, Set<Meal> meals) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -63,6 +76,7 @@ public class User {
         this.likedRecipes = likedRecipes;
         this.roles = roles;
         this.recipes = recipes;
+        this.meals = meals;
     }
 
     public Long getId() {
@@ -143,6 +157,14 @@ public class User {
 
     public void setRecipes(Set<Recipe> recipes) {
         this.recipes = recipes;
+    }
+
+    public Set<Meal> getMeals() {
+        return meals;
+    }
+
+    public void setMeals(Set<Meal> meals) {
+        this.meals = meals;
     }
 
     public boolean isEnabled() {

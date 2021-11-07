@@ -4,15 +4,12 @@
  * Author(s): < Calvin Pierce>
  * Student Number: < 101253832 >
  * Date: November 7th 2021
- * Description: This java file is used to find users in our application.
+ * Description: This java file is used to save meals in our application.
  **********************************************************************************/
 package ca.gbc.comp3095.recipe.repositories;
 
-import ca.gbc.comp3095.recipe.model.User;
+import ca.gbc.comp3095.recipe.model.Meal;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface UserRepository extends CrudRepository<User, Long> {
-    User getUserByUsername(String username);
+public interface MealRepository extends CrudRepository<Meal, Long> {
 }
