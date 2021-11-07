@@ -1,15 +1,16 @@
 /**********************************************************************************
  * Project: < comp3095_assignment1 >
  * Assignment: < assignment 1 >
- * Author(s): < Calvin Pierce>
- * Student Number: < 101253832 >
- * Date: November 1st 2021
+ * Author(s): < Calvin Pierce, Ikechukwu Emmanuel Okonkwo>
+ * Student Number: < 101253832, 101277584 >
+ * Date: November 6th 2021
  * Description: This java file is used to control all pages available to registered users.
  **********************************************************************************/
 package ca.gbc.comp3095.recipe.controllers;
 
 import ca.gbc.comp3095.recipe.model.Recipe;
 import ca.gbc.comp3095.recipe.repositories.RecipeRepository;
+import ca.gbc.comp3095.recipe.repositories.SearchRepository;
 import ca.gbc.comp3095.recipe.repositories.UserRepository;
 import ca.gbc.comp3095.recipe.services.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Date;
-import java.util.HashSet;
 
 @RequestMapping("/registered")
 @Controller
@@ -34,6 +34,9 @@ public class RegisteredController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    SearchRepository searchRepository;
 
     @Autowired
     SearchService service;
@@ -52,7 +55,7 @@ public class RegisteredController {
 
     @PostMapping(value = "/save")
     public String save(Recipe recipe, Authentication authentication) {
-        recipe.setAuthor(new HashSet<>(userRepository.findByUsername(authentication.getName())));
+        recipe.setAuthor(userRepository.getUserByUsername(authentication.getName()));
         recipe.setDateAdded(new Date());
         recipe.setTotalTime(recipe.getPrepTime() + recipe.getCookTime());
         recipeRepository.save(recipe);
@@ -88,9 +91,7 @@ public class RegisteredController {
     @RequestMapping({"/view-profile", "view-profile.html"})
     public String viewProfile(Model model, Authentication authentication) {
         model.addAttribute("user", userRepository.getUserByUsername(authentication.getName()));
-        Set<Recipe> listRecipes = userRepository.getUserByUsername(authentication.getName()).getLikedRecipes();
-        model.addAttribute("recipes", listRecipes);
-        model.addAttribute("count", listRecipes.size());
+        model.addAttribute("userRecipes", searchRepository.findByUsername(authentication.getName()));
         return "registered/view-profile";
     }
 
