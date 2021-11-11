@@ -42,6 +42,9 @@
             <label for="password" th:text="'Password'"></label>
         </div>
         <div>
+            <input type="checkbox" onclick="myFunction()" th:text="' Show Password'"/>
+        </div>
+        <div>
             <a th:href="@{/reset}" th:text="'Forgot Password?'"></a>
         </div>
         <button class="w-100 btn btn-lg btn-dark" type="submit" th:text="'Sign In'"></button>
@@ -52,6 +55,15 @@
     </form>
     <p class="mt-5 mb-3 text-muted">&copy; 2021–2021</p>
 </main>
-
+<script>
+    function myFunction() {
+        let x = document.getElementById("password");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+</script>
 </body>
 </html>

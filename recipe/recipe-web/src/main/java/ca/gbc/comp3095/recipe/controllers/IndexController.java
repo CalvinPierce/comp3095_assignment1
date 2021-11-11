@@ -43,6 +43,10 @@ public class IndexController {
 
     @PostMapping(value = "/save")
     public String save(User user, Model model) {
+        if (userRepository.getUserByUsername(user.getUsername()) != null) {
+            model.addAttribute("message", "Invalid User! " + user.getUsername() + " Username Already Taken!");
+            return "/register";
+        }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
