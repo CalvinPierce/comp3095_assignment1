@@ -8,15 +8,16 @@
             crossorigin="anonymous"></script>
     <div th:replace="header :: myheader"></div>
     <meta charset="UTF-8">
-    <title>Logged Out</title>
-    <style>
-        a {
-            text-decoration: none;
-        }
-    </style>
+    <title>Reset Password Successful</title>
 </head>
 <body class="text-center">
-<h2 th:text="'User logged out successfully'"></h2>
-<a th:href="@{/}" th:text="'Click here to go back to login page'"></a>
+<div>
+    <p th:text="${message}"></p>
+</div>
+
+<div>
+    <a th:href="@{/}" th:text="'Click here to return to the sign in page'"></a>
+</div>
+
 </body>
 </html>

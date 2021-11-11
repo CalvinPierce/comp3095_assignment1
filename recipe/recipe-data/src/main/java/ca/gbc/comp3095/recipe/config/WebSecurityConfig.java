@@ -3,7 +3,7 @@
  * Assignment: < assignment 1 >
  * Author(s): < Calvin Pierce>
  * Student Number: < 101253832 >
- * Date: November 1st 2021
+ * Date: November 11th 2021
  * Description: This java file is used to set the securities making any page that requires
  * a registered user restricted to non-registered users.
  **********************************************************************************/
@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/registered/**").hasAnyAuthority("user")
-                .antMatchers("/h2-console/**", "/", "/register", "/login", "/save").permitAll().anyRequest().authenticated().and().formLogin()
+                .antMatchers("/h2-console/**", "/", "/register", "/login", "/save", "/reset").permitAll().anyRequest().authenticated().and().formLogin()
                 .loginPage("/login").usernameParameter("username").passwordParameter("password")
                 .permitAll()
                 .defaultSuccessUrl("/registered/index", true)

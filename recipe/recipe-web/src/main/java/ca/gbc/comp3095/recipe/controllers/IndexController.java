@@ -3,7 +3,7 @@
  * Assignment: < assignment 1 >
  * Author(s): < Calvin Pierce>
  * Student Number: < 101253832 >
- * Date: November 1st 2021
+ * Date: November 11th 2021
  * Description: This java file is used to control our pages for non-registered users.
  **********************************************************************************/
 package ca.gbc.comp3095.recipe.controllers;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 
 @Controller
@@ -63,6 +64,31 @@ public class IndexController {
     @RequestMapping({"/logout", "logout.html"})
     public String logout() {
         return "/logout";
+    }
+
+    @RequestMapping(value = {"/reset", "reset-password.html"}, method = RequestMethod.GET)
+    public String reset(Model model) {
+        return "/reset-password";
+    }
+
+    @RequestMapping(value = {"/reset", "reset-password.html"}, method = RequestMethod.POST)
+    public String reset(HttpServletRequest request, Model model) {
+        User user = userRepository.getUserByUsername(request.getParameter("username"));
+        if (user == null) {
+            model.addAttribute("message", "Invalid User! " + request.getParameter("username") + " Not Found!");
+            return "/reset-password";
+        } else {
+            if (!request.getParameter("password").equals(request.getParameter("confirmPassword"))) {
+                model.addAttribute("badMatch", "Error! Passwords do not match!");
+                return "/reset-password";
+            }
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encodedPassword = passwordEncoder.encode(request.getParameter("password"));
+            user.setPassword(encodedPassword);
+            userRepository.save(user);
+            model.addAttribute("message", "You have successfully changed your password.");
+        }
+        return "/reset-success";
     }
 
 }
