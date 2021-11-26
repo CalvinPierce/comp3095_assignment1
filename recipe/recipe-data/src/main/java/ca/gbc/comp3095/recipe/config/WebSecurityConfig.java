@@ -9,6 +9,7 @@
  **********************************************************************************/
 package ca.gbc.comp3095.recipe.config;
 
+import ca.gbc.comp3095.recipe.services.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

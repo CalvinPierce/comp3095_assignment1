@@ -7,8 +7,9 @@
  * Description: This java file implements the user details interface needed for spring
  * security authentication.
  **********************************************************************************/
-package ca.gbc.comp3095.recipe.config;
+package ca.gbc.comp3095.recipe.services;
 
+import ca.gbc.comp3095.recipe.config.MyUserDetails;
 import ca.gbc.comp3095.recipe.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import ca.gbc.comp3095.recipe.repositories.UserRepository;

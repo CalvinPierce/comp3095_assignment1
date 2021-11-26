@@ -19,7 +19,7 @@
         <label class="col-sm-2" th:text="'Event Name:'"></label>
         <div class="col-sm-8">
             <input type="text" class="form-control" th:field="*{name}" th:required="true"
-                    th:value="${event.name}"
+                   th:value="${event.name}"
                    th:oninvalid="this.setCustomValidity('Event name cannot be blank')"
                    th:oninput="this.setCustomValidity('')"/>
         </div>
@@ -52,10 +52,6 @@
             <button class="w-100 btn btn-lg btn-dark" type="submit" th:text="'Save'"></button>
         </div>
     </div>
-</form>
-
-<form th:action="@{/doLogout}" method="post">
-    <button class="btn btn-lg btn-dark" type="submit" th:text="'Logout'"></button>
 </form>
 </body>
 </html>

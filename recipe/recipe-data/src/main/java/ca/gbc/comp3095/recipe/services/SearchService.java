@@ -1,8 +1,8 @@
 /**********************************************************************************
  * Project: < comp3095_assignment1 >
  * Assignment: < assignment 1 >
- * Author(s): < Calvin Pierce>
- * Student Number: < 101253832 >
+ * Author(s): < Calvin Pierce, Shiming Ye >
+ * Student Number: < 101253832, 101274045 >
  * Date: November 1st 2021
  * Description: This java file is used to return our searches for our app.
  **********************************************************************************/
@@ -18,6 +18,7 @@ import java.util.List;
 
 @Service
 public class SearchService {
+
     @Autowired
     private SearchRepository searchRepository;
 

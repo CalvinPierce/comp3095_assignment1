@@ -1,8 +1,8 @@
 /**********************************************************************************
  * Project: < comp3095_assignment1 >
  * Assignment: < assignment 1 >
- * Author(s): < Calvin Pierce>
- * Student Number: < 101253832 >
+ * Author(s): < Calvin Pierce, Shiming Ye >
+ * Student Number: < 101253832, 101274045 >
  * Date: November 7th 2021
  * Description: This java file is used to search recipes in our app.
  **********************************************************************************/
@@ -33,4 +33,3 @@ public interface SearchRepository extends JpaRepository<Recipe, Long> {
     Event findEventById(Long id);
 
 
-}
