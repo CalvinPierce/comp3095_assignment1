@@ -45,7 +45,7 @@ VALUES (1, 1);
 
 
 INSERT INTO event (id, name, event_date) VALUES
-    ('1','Event 1','2021-11-23 00:00:00.000');
+('1','Event 1','2021-11-23 00:00:00.000');
 
 INSERT INTO user_event (event_id, user_id)
 VALUES (1, 1);
