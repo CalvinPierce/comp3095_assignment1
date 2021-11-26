@@ -8,6 +8,7 @@
  **********************************************************************************/
 package ca.gbc.comp3095.recipe.services;
 
+import ca.gbc.comp3095.recipe.model.Event;
 import ca.gbc.comp3095.recipe.model.Recipe;
 import ca.gbc.comp3095.recipe.repositories.SearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,12 @@ public class SearchService {
             return searchRepository.search(keyword);
         }
         return searchRepository.findAll();
+    }
+
+    public List<Event> listAllEvents(String s) {
+        if(s != null){
+            return searchRepository.findEventByUser(s);
+        }
+        return null;
     }
 }

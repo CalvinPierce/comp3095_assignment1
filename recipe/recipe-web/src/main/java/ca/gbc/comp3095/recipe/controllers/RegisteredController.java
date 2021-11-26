@@ -8,24 +8,21 @@
  **********************************************************************************/
 package ca.gbc.comp3095.recipe.controllers;
 
+import ca.gbc.comp3095.recipe.model.Event;
 import ca.gbc.comp3095.recipe.model.Meal;
 import ca.gbc.comp3095.recipe.model.Recipe;
-import ca.gbc.comp3095.recipe.repositories.MealRepository;
-import ca.gbc.comp3095.recipe.repositories.RecipeRepository;
-import ca.gbc.comp3095.recipe.repositories.SearchRepository;
-import ca.gbc.comp3095.recipe.repositories.UserRepository;
+import ca.gbc.comp3095.recipe.repositories.*;
 import ca.gbc.comp3095.recipe.services.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Date;
+import java.util.Optional;
 
 @RequestMapping("/registered")
 @Controller
@@ -42,6 +39,9 @@ public class RegisteredController {
 
     @Autowired
     SearchRepository searchRepository;
+
+    @Autowired
+    EventRepository eventRepository;
 
     @Autowired
     SearchService service;
@@ -123,5 +123,43 @@ public class RegisteredController {
         List<Recipe> listRecipes = service.listAll("");
         model.addAttribute("recipes", listRecipes);
         return "registered/view-recipe";
+    }
+
+    @RequestMapping({"/view-events", "view-events.html"})
+    public String viewEvents(Model model,Authentication authentication ) {
+        List<Event> listEvents = eventRepository.findEventByUser(authentication.getName());//service.listAllEvents("");
+        model.addAttribute("user", userRepository.getUserByUsername(authentication.getName()));
+        model.addAttribute("events", listEvents);
+        return "registered/view-events";
+    }
+    @RequestMapping({"/update-event/{id}", "update-event.html"})
+    public String updateView(Model model,Authentication authentication,@PathVariable("id")String id) {
+        System.out.println(id);
+        Long id_ = Long.valueOf(id);
+        Event event = searchRepository.findEventById(id_);
+        model.addAttribute("event", event);
+        return "registered/update-event";
+    }
+    @PostMapping(value = "/updateEvent")
+    public String updateEvent(HttpServletRequest request, Event event, Authentication authentication, Model model) {
+        event.setUser(userRepository.getUserByUsername(authentication.getName()));
+        String newName =request.getParameter("name");
+        event.setName(newName);
+        eventRepository.updateEvent(event.getId(),newName);
+        List<Event> listEvents = eventRepository.findEventByUser(authentication.getName());//service.listAllEvents("");
+        model.addAttribute("user", userRepository.getUserByUsername(authentication.getName()));
+        model.addAttribute("events", listEvents);
+        return "registered/view-events";
+    }
+
+    @RequestMapping({"/delete-event/{id}", "view-events.html"})
+    public String deleteEvent(Model model,Authentication authentication,@PathVariable("id")String id ) {
+
+        System.out.println(id);
+        Long id_ = Long.valueOf(id);
+        eventRepository.deleteById(id_);
+        List<Event> listEvents = service.listAllEvents("");
+        model.addAttribute("events", listEvents);
+        return "registered/view-events";
     }
 }
