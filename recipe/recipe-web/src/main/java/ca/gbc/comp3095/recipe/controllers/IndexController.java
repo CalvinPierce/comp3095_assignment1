@@ -9,8 +9,7 @@
 package ca.gbc.comp3095.recipe.controllers;
 
 import ca.gbc.comp3095.recipe.model.User;
-import ca.gbc.comp3095.recipe.repositories.RoleRepository;
-import ca.gbc.comp3095.recipe.repositories.UserRepository;
+import ca.gbc.comp3095.recipe.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,16 +22,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
 
 @Controller
 public class IndexController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
+    private UserService userService;
 
     @RequestMapping({"/register", "register.html"})
     public String index(Model model) {
@@ -43,16 +38,11 @@ public class IndexController {
 
     @PostMapping(value = "/save")
     public String save(User user, Model model) {
-        if (userRepository.getUserByUsername(user.getUsername()) != null) {
+        if (userService.getUserByUsername(user.getUsername()) != null) {
             model.addAttribute("message", "Invalid User! " + user.getUsername() + " Username Already Taken!");
             return "/register";
         }
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-        user.setRoles(new HashSet<>(roleRepository.findByName("user")));
-        user.setEnabled(true);
-        userRepository.save(user);
+        userService.save(user);
         return "/login";
     }
 
@@ -77,7 +67,7 @@ public class IndexController {
 
     @RequestMapping(value = {"/reset", "reset-password.html"}, method = RequestMethod.POST)
     public String reset(HttpServletRequest request, Model model) {
-        User user = userRepository.getUserByUsername(request.getParameter("username"));
+        User user = userService.getUserByUsername(request.getParameter("username"));
         if (user == null) {
             model.addAttribute("message", "Invalid User! " + request.getParameter("username") + " Not Found!");
             return "/reset-password";
@@ -89,7 +79,7 @@ public class IndexController {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String encodedPassword = passwordEncoder.encode(request.getParameter("password"));
             user.setPassword(encodedPassword);
-            userRepository.save(user);
+            userService.saveNewPassword(user);
             model.addAttribute("message", "You have successfully changed your password.");
         }
         return "/reset-success";
