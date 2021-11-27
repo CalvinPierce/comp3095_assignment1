@@ -17,39 +17,27 @@
         <thead>
         <tr>
             <th>Name</th>
-            <th>Prep Time</th>
-            <th>Cook Time</th>
-            <th>Total Time</th>
-            <th>Ingredients</th>
             <th>Instructions</th>
-            <th>Date Added</th>
-            <th>Author</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="recipe :${recipes}">
+        <tr th:object="${recipe}">
             <td th:text="${recipe.name}"></td>
-            <td th:text="${recipe.prepTime} + ' minutes'"></td>
-            <td th:text="${recipe.cookTime} + ' minutes'"></td>
-            <td th:text="${recipe.totalTime} + ' minutes'"></td>
-            <td th:text="${recipe.ingredients}"></td>
             <td th:text="${recipe.steps.instructions}"></td>
-            <td th:text="${recipe.dateAdded}"></td>
-            <td th:text="${recipe.author.firstName} + ' ' + ${recipe.author.lastName}"></td>
-            <td>
-                <a th:href="@{/registered/edit-recipe/}+${recipe.id}">
-                    <button class="btn btn-lg btn-dark" type="submit" th:text="'Edit'"></button>
-                </a>
-            </td>
-            <td>
-                <a th:href="@{/registered/view-steps/}+${recipe.id}">
-                    <button class="btn btn-lg btn-dark" type="submit" th:text="'View Steps'"></button>
-                </a>
-            </td>
         </tr>
         </tbody>
     </table>
 </div>
+<br>
+<form th:action="@{/registered/view-recipe}">
+    <div class="row mb-3">
+        <label class="col-sm-2"></label>
+        <label class="col-sm-2"></label>
+        <div class="col-sm-4">
+            <button class="btn btn-lg btn-dark" type="submit" th:text="'Back to View Recipes'"></button>
+        </div>
+    </div>
+</form>
 <form th:action="@{/doLogout}" method="post">
     <button class="btn btn-lg btn-dark" type="submit" th:text="'Logout'"></button>
 </form>

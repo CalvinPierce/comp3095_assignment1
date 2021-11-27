@@ -8,17 +8,7 @@
  **********************************************************************************/
 package ca.gbc.comp3095.recipe.model;
 
-import javax.persistence.Id;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.ManyToOne;
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
@@ -35,8 +25,6 @@ public class Recipe {
     private int totalTime;
     @Lob
     private String ingredients;
-    @Lob
-    private String instructions;
     private Date dateAdded;
 
     @ManyToMany
@@ -49,28 +37,31 @@ public class Recipe {
     @JoinTable(name = "users_recipes", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "recipe_id"))
     private User author;
 
+    @OneToOne
+    @MapsId
+    private Instructions steps;
+
     public Recipe() {
     }
 
-    public Recipe(Long id, String name, int prepTime, int cookTime, int totalTime, String ingredients, String instructions, Date dateAdded) {
+    public Recipe(Long id, String name, int prepTime, int cookTime, int totalTime, String ingredients, Instructions steps, Date dateAdded) {
         this.id = id;
         this.name = name;
         this.prepTime = prepTime;
         this.cookTime = cookTime;
         this.totalTime = totalTime;
-        this.ingredients = ingredients;
-        this.instructions = instructions;
+        this.steps = steps;
         this.dateAdded = dateAdded;
     }
 
-    public Recipe(Long id, String name, int prepTime, int cookTime, int totalTime, String ingredients, String instructions, Date dateAdded, Set<User> likedByUsers, User author) {
+    public Recipe(Long id, String name, int prepTime, int cookTime, int totalTime, String ingredients, Instructions steps, Date dateAdded, Set<User> likedByUsers, User author) {
         this.id = id;
         this.name = name;
         this.prepTime = prepTime;
         this.cookTime = cookTime;
         this.totalTime = totalTime;
         this.ingredients = ingredients;
-        this.instructions = instructions;
+        this.steps = steps;
         this.dateAdded = dateAdded;
         this.likedByUsers = likedByUsers;
         this.author = author;
@@ -124,14 +115,6 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
-
     public Date getDateAdded() {
         return dateAdded;
     }
@@ -156,6 +139,14 @@ public class Recipe {
         this.author = author;
     }
 
+    public Instructions getSteps() {
+        return steps;
+    }
+
+    public void setSteps(Instructions steps) {
+        this.steps = steps;
+    }
+
     @Override
     public String toString() {
         return "Recipe{" +
@@ -165,7 +156,7 @@ public class Recipe {
                 ", cookTime='" + cookTime + '\'' +
                 ", totalTime='" + totalTime + '\'' +
                 ", ingredients=" + ingredients +
-                ", instructions='" + instructions + '\'' +
+                ", instructions='" + steps + '\'' +
                 ", author=" + author +
                 ", likedByUsers=" + likedByUsers +
                 '}';

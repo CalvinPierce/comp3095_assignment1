@@ -19,6 +19,10 @@ public class RecipeService {
     @Autowired
     private UserRepository userRepository;
 
+    public Recipe getRecipeById(Long id){
+        return recipeRepository.getRecipeById(id);
+    }
+
     public void save(Recipe recipe){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         recipe.setAuthor(userRepository.getUserByUsername(authentication.getName()));

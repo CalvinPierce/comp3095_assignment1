@@ -50,7 +50,7 @@
             <td th:text="${recipe.cookTime} + ' minutes'"></td>
             <td th:text="${recipe.totalTime} + ' minutes'"></td>
             <td th:text="${recipe.ingredients}"></td>
-            <td th:text="${recipe.instructions}"></td>
+            <td th:text="${recipe.steps.instructions}"></td>
             <td th:text="${recipe.dateAdded}"></td>
             <td th:text="${recipe.author.firstName} + ' ' + ${recipe.author.lastName}"></td>
         </tr>
