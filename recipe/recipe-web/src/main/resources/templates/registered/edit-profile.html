@@ -8,16 +8,22 @@
             crossorigin="anonymous"></script>
     <div th:replace="header :: myheader"></div>
     <meta charset="UTF-8">
-    <title>Register User</title>
+    <title>View Profile</title>
 </head>
-<body>
+<body class="text-center">
 <div align="center">
-    <h1>Register User</h1>
+    <h1>Edit User</h1>
     <br/>
     <div th:if="${message != null}">
         <div class="alert alert-danger" th:text="${message}"></div>
     </div>
-    <form th:action="@{/save}" th:object="${user}" method="post">
+    <form th:action="@{/registered/saveUser}" th:object="${user}">
+        <div class="row mb-3">
+            <label class="col-sm-2"></label>
+            <div class="col-sm-8">
+                <input hidden type="text" class="form-control" th:field="*{id}" th:required="true"/>
+            </div>
+        </div>
         <div class="row mb-3">
             <label class="col-sm-2" th:text="'First Name:'"></label>
             <div class="col-sm-8">
@@ -54,39 +60,36 @@
                        th:oninput="this.setCustomValidity('')"/>
             </div>
         </div>
-        <div class="row mb-3">
-            <label class="col-sm-2" th:text="'Password:'"></label>
-            <div class="col-sm-8">
-                <input type="password" id="password" class="form-control" th:field="*{password}" th:required="true"
-                       th:oninvalid="this.setCustomValidity('Password cannot be blank')"
-                       th:oninput="this.setCustomValidity('')"/>
-            </div>
-        </div>
-        <div>
-            <input type="checkbox" onclick="myFunction()" th:text="' Show Password'"/>
-        </div>
+
         <div class="row mb-3">
             <label class="col-sm-2"></label>
             <label class="col-sm-2"></label>
             <div class="col-sm-4">
-                <button class="w-100 btn btn-lg btn-dark" type="submit" th:text="'Register'"></button>
+                <button class="w-100 btn btn-lg btn-dark" type="submit" th:text="'Save'"></button>
             </div>
         </div>
     </form>
     <br>
-    <form th:action="@{/}">
-        <button class="w-100 btn btn-lg btn-dark" type="submit" th:text="'Cancel'"></button>
+    <form th:action="@{/registered/change-password}" method="get">
+        <div class="row mb-3">
+            <label class="col-sm-2"></label>
+            <label class="col-sm-2"></label>
+            <div class="col-sm-4">
+                <button class="btn btn-lg btn-dark" type="submit" th:text="'Change Password'"></button>
+            </div>
+        </div>
+    </form>
+    <br>
+    <form th:action="@{/registered/view-profile}">
+        <div class="row mb-3">
+            <label class="col-sm-2"></label>
+            <label class="col-sm-2"></label>
+            <div class="col-sm-4">
+                <button class="btn btn-lg btn-dark" type="submit" th:text="'Cancel'"></button>
+            </div>
+        </div>
     </form>
 </div>
-<script>
-    function myFunction() {
-        let x = document.getElementById("password");
-        if (x.type === "password") {
-            x.type = "text";
-        } else {
-            x.type = "password";
-        }
-    }
-</script>
+
 </body>
 </html>

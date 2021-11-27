@@ -22,6 +22,10 @@ public class UserService {
         return userRepository.getUserByUsername(username);
     }
 
+    public User getUserById(Long id){
+        return userRepository.getUserById(id);
+    }
+
     public void save(User user){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
@@ -32,6 +36,12 @@ public class UserService {
     }
 
     public void saveNewPassword(User user){
+        userRepository.save(user);
+    }
+
+    public void updateUser(User user){
+        user.setRoles(new HashSet<>(roleRepository.findByName("user")));
+        user.setEnabled(true);
         userRepository.save(user);
     }
 

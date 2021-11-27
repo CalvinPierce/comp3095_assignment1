@@ -8,16 +8,16 @@
             crossorigin="anonymous"></script>
     <div th:replace="header :: myheader"></div>
     <meta charset="UTF-8">
-    <title>Logged Out</title>
-    <style>
-        a {
-            text-decoration: none;
-        }
-    </style>
+    <title>Change Password Successful</title>
 </head>
 <body class="text-center">
-<h2 th:text="'User logged out successfully'"></h2>
+<div>
+    <p th:text="${message}"></p>
+</div>
 
-<a th:href="@{/}" th:text="'Click here to go back to login page'"></a>
+<div>
+    <a th:href="@{/registered/view-profile}" th:text="'Click here to return to your profile'"></a>
+</div>
+
 </body>
 </html>
