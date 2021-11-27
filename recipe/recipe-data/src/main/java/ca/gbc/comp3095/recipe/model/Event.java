@@ -6,6 +6,7 @@
  * Date: November 7th 2021
  * Description: This java file is used to set the event entity in our h2 database.
  **********************************************************************************/
+
 package ca.gbc.comp3095.recipe.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -112,4 +113,4 @@ public class Event {
     public int hashCode() {
         return Objects.hash(id);
     }
-}
+

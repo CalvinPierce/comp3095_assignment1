@@ -33,4 +33,3 @@ public interface SearchRepository extends JpaRepository<Recipe, Long> {
     Event findEventById(Long id);
 
 
-}
