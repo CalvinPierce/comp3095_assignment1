@@ -46,6 +46,18 @@
                            th:aria-current="${#httpServletRequest.getRequestURI() == '/registered/plan-meal' ? 'page':''}"
                            th:href="@{/registered/plan-meal}" th:text="'Plan Meal'"></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           th:classappend="${#httpServletRequest.getRequestURI() == '/registered/view-events' ? 'active':''}"
+                           th:aria-current="${#httpServletRequest.getRequestURI() == '/registered/view-events' ? 'page':''}"
+                           th:href="@{/registered/view-events}" th:text="'View Events'"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           th:classappend="${#httpServletRequest.getRequestURI() == '/registered/create-event' ? 'active':''}"
+                           th:aria-current="${#httpServletRequest.getRequestURI() == '/registered/create-event' ? 'page':''}"
+                           th:href="@{/registered/create-event}" th:text="'Create Event'"></a>
+                    </li>
                 </ul>
             </div>
         </div>

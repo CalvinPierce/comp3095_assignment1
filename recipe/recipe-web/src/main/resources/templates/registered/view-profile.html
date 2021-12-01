@@ -40,35 +40,10 @@
         <button class="btn btn-lg btn-dark" type="submit" th:text="'Edit Profile'"></button>
     </form>
 </div>
-<h2 th:text="${user.username} + '\'s Recipes'" ></h2>
-<div class="container p-5 mt-2">
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Prep Time</th>
-            <th>Cook Time</th>
-            <th>Total Time</th>
-            <th>Ingredients</th>
-            <th>Instructions</th>
-            <th>Date Added</th>
-            <th>Author</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="recipe :${userRecipes}">
-            <td th:text="${recipe.name}"></td>
-            <td th:text="${recipe.prepTime} + ' minutes'"></td>
-            <td th:text="${recipe.cookTime} + ' minutes'"></td>
-            <td th:text="${recipe.totalTime} + ' minutes'"></td>
-            <td th:text="${recipe.ingredients}"></td>
-            <td th:text="${recipe.steps.instructions}"></td>
-            <td th:text="${recipe.dateAdded}"></td>
-            <td th:text="${recipe.author.firstName} + ' ' + ${recipe.author.lastName}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+<form th:action="@{/registered/view-created-recipes}">
+    <button class="btn btn-lg btn-dark" type="submit" th:text="'View Your Created Recipes'"></button>
+</form>
+<br>
 <form th:action="@{/doLogout}" method="post">
     <button class="btn btn-lg btn-dark" type="submit" th:text="'Logout'"></button>
 </form>

@@ -8,10 +8,11 @@
             crossorigin="anonymous"></script>
     <div th:replace="header :: myheader"></div>
     <meta charset="UTF-8">
-    <title>View Recipe</title>
+    <title>View Profile</title>
 </head>
-<h1>View Recipes</h1>
 <body class="text-center">
+<h2 th:text="'Welcome to ' + ${#authentication.name} + '\'s Recipes'" ></h2>
+<h2 th:text="${#authentication.name} + '\'s Recipes'" ></h2>
 <div class="container p-5 mt-2">
     <table class="table">
         <thead>
@@ -27,7 +28,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="recipe :${recipes}">
+        <tr th:each="recipe :${userRecipes}">
             <td th:text="${recipe.name}"></td>
             <td th:text="${recipe.prepTime} + ' minutes'"></td>
             <td th:text="${recipe.cookTime} + ' minutes'"></td>
@@ -36,10 +37,28 @@
             <td th:text="${recipe.steps.instructions}"></td>
             <td th:text="${recipe.dateAdded}"></td>
             <td th:text="${recipe.author.firstName} + ' ' + ${recipe.author.lastName}"></td>
+            <td>
+                <a th:href="@{'/registered/edit-recipe/' + ${recipe.id}}">
+                    <button class="btn btn-lg btn-dark" type="submit" th:text="'Edit'"></button>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{'/registered/view-steps/' + ${recipe.id}}">
+                    <button class="btn btn-lg btn-dark" type="submit" th:text="'View Steps'"></button>
+                </a>
+            </td>
         </tr>
         </tbody>
     </table>
 </div>
+<form th:action="@{/registered/create-recipe}">
+    <button class="btn btn-lg btn-dark" type="submit" th:text="'Create New Recipe'"></button>
+</form>
+<br>
+<form th:action="@{/registered/view-profile}">
+    <button class="btn btn-lg btn-dark" type="submit" th:text="'Back To Profile'"></button>
+</form>
+<br>
 <form th:action="@{/doLogout}" method="post">
     <button class="btn btn-lg btn-dark" type="submit" th:text="'Logout'"></button>
 </form>

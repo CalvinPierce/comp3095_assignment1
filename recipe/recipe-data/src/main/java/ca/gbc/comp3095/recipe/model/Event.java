@@ -1,14 +1,15 @@
 /**********************************************************************************
  * Project: < comp3095_assignment1 >
  * Assignment: < assignment 1 >
- * Author(s): < Shiming Ye >
- * Student Number: < 101274045 >
+ * Author(s): < Shiming Ye, Calvin Pierce >
+ * Student Number: < 101274045, 101253832 >
  * Date: November 7th 2021
  * Description: This java file is used to set the event entity in our h2 database.
  **********************************************************************************/
 
 package ca.gbc.comp3095.recipe.model;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -23,7 +24,7 @@ public class Event {
     private Long id;
     private String name;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date eventDate;
+    private LocalDate eventDate;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_event", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "event_id"))
@@ -36,13 +37,13 @@ public class Event {
     public Event() {
     }
 
-    public Event(Long id, String name, Date date) {
+    public Event(Long id, String name, LocalDate date) {
         this.id = id;
         this.name = name;
         this.eventDate = date;
     }
 
-    public Event(Long id, String name, Date date, User user, Meal meal) {
+    public Event(Long id, String name, LocalDate date, User user, Meal meal) {
         this.id = id;
         this.name = name;
         this.eventDate = date;
@@ -66,11 +67,11 @@ public class Event {
         this.name = name;
     }
 
-    public Date getEventDate() {
+    public LocalDate getEventDate() {
         return eventDate;
     }
 
-    public void setEventDate(Date date) {
+    public void setEventDate(LocalDate date) {
         this.eventDate = date;
     }
 
@@ -113,4 +114,5 @@ public class Event {
     public int hashCode() {
         return Objects.hash(id);
     }
+}
 

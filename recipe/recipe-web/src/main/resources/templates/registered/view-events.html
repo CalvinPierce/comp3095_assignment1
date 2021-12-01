@@ -30,12 +30,12 @@
             <td th:text="${event.meal.name}"></td>
             <td th:text="${event.user.firstName} + ' ' + ${event.user.lastName}"></td>
             <td>
-                <a th:href="@{/registered/update-event/}+${event.id}">
+                <a th:href="@{'/registered/update-event/' + ${event.id}}">
                     <button class="btn btn-lg btn-dark" type="submit" th:text="'Update'"></button>
                 </a>
             </td>
             <td>
-                <form th:action="@{/registered/delete-event/}+${event.id}" th:object="${event}" method="post">
+                <form th:action="@{'/registered/delete-event/' + ${event.id}}" th:object="${event}" method="post">
                     <button class="btn btn-lg btn-dark" type="submit" th:text="'Delete'"></button>
                 </form>
             </td>
@@ -43,8 +43,10 @@
         </tbody>
     </table>
 </div>
-
-
+<form th:action="@{/registered/create-event}" method="post">
+    <button class="btn btn-lg btn-dark" type="submit" th:text="'Create New Event'"></button>
+</form>
+<br>
 <form th:action="@{/doLogout}" method="post">
     <button class="btn btn-lg btn-dark" type="submit" th:text="'Logout'"></button>
 </form>

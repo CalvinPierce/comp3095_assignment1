@@ -8,7 +8,10 @@
  **********************************************************************************/
 package ca.gbc.comp3095.recipe.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
@@ -25,7 +28,8 @@ public class Recipe {
     private int totalTime;
     @Lob
     private String ingredients;
-    private Date dateAdded;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateAdded;
 
     @ManyToMany
     @JoinTable(name = "recipe_like",
@@ -37,14 +41,14 @@ public class Recipe {
     @JoinTable(name = "users_recipes", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "recipe_id"))
     private User author;
 
-    @OneToOne
-    @MapsId
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "instructions_id", referencedColumnName = "id")
     private Instructions steps;
 
     public Recipe() {
     }
 
-    public Recipe(Long id, String name, int prepTime, int cookTime, int totalTime, String ingredients, Instructions steps, Date dateAdded) {
+    public Recipe(Long id, String name, int prepTime, int cookTime, int totalTime, String ingredients, Instructions steps, LocalDate dateAdded) {
         this.id = id;
         this.name = name;
         this.prepTime = prepTime;
@@ -54,7 +58,7 @@ public class Recipe {
         this.dateAdded = dateAdded;
     }
 
-    public Recipe(Long id, String name, int prepTime, int cookTime, int totalTime, String ingredients, Instructions steps, Date dateAdded, Set<User> likedByUsers, User author) {
+    public Recipe(Long id, String name, int prepTime, int cookTime, int totalTime, String ingredients, Instructions steps, LocalDate dateAdded, Set<User> likedByUsers, User author) {
         this.id = id;
         this.name = name;
         this.prepTime = prepTime;
@@ -115,11 +119,11 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
-    public Date getDateAdded() {
+    public LocalDate getDateAdded() {
         return dateAdded;
     }
 
-    public void setDateAdded(Date dateAdded) {
+    public void setDateAdded(LocalDate dateAdded) {
         this.dateAdded = dateAdded;
     }
 
