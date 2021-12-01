@@ -1,3 +1,11 @@
+/**********************************************************************************
+ * Project: < comp3095_assignment1 >
+ * Assignment: < assignment 1 >
+ * Author(s): < Calvin Pierce>
+ * Student Number: < 101253832 >
+ * Date: November 7th 2021
+ * Description: This java file is used to set the recipe entity in our h2 database.
+ **********************************************************************************/
 package ca.gbc.comp3095.recipe.model;
 
 import javax.persistence.*;
@@ -10,6 +18,8 @@ public class Instructions {
     @Lob
     private String instructions;
 
+    @OneToOne(mappedBy = "steps")
+    private Recipe recipe;
 
     public String getInstructions() {
         return instructions;

@@ -9,7 +9,7 @@
 package ca.gbc.comp3095.recipe.repositories;
 
 import ca.gbc.comp3095.recipe.model.Meal;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MealRepository extends CrudRepository<Meal, Long> {
+public interface MealRepository extends JpaRepository<Meal, Long> {
 }

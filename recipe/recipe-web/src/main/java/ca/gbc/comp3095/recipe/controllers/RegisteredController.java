@@ -13,10 +13,7 @@ import ca.gbc.comp3095.recipe.model.Meal;
 import ca.gbc.comp3095.recipe.model.Recipe;
 import ca.gbc.comp3095.recipe.model.User;
 import ca.gbc.comp3095.recipe.repositories.*;
-import ca.gbc.comp3095.recipe.services.MealService;
-import ca.gbc.comp3095.recipe.services.RecipeService;
-import ca.gbc.comp3095.recipe.services.SearchService;
-import ca.gbc.comp3095.recipe.services.UserService;
+import ca.gbc.comp3095.recipe.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,16 +46,10 @@ public class RegisteredController {
     private MealService mealService;
 
     @Autowired
-    RecipeRepository recipeRepository;
-
-    @Autowired
-    MealRepository mealRepository;
+    private EventService eventService;
 
     @Autowired
     SearchRepository searchRepository;
-
-    @Autowired
-    EventRepository eventRepository;
 
     @RequestMapping({"", "/", "index", "index.html"})
     public String index() {
@@ -73,9 +64,10 @@ public class RegisteredController {
     }
 
     @PostMapping(value = "/saveRecipe")
-    public String saveRecipe(Recipe recipe, Authentication authentication) {
+    public String saveRecipe(Model model, Recipe recipe, Authentication authentication) {
         recipeService.save(recipe);
-        return "/registered/index";
+        model.addAttribute("userRecipes", searchRepository.findByUsername(authentication.getName()));
+        return "/registered/view-created-recipes";
     }
 
     @RequestMapping({"/plan", "/plan-meal", "plan-meal.html"})
@@ -119,6 +111,12 @@ public class RegisteredController {
             model.addAttribute("message", "No record Found");
         }
         return "/registered/search-recipe";
+    }
+
+    @RequestMapping({"/view-created-recipes", "view-created-recipes.html"})
+    public String viewUserRecipes(Model model, Authentication authentication) {
+        model.addAttribute("userRecipes", searchRepository.findByUsername(authentication.getName()));
+        return "registered/view-created-recipes";
     }
 
     @RequestMapping({"/view-profile", "view-profile.html"})
@@ -176,7 +174,6 @@ public class RegisteredController {
         model.addAttribute("recipes", listRecipes);
         return "registered/view-recipe";
     }
-
     @RequestMapping({"/edit-recipe/{id}"})
     public String editRecipe(Model model, @PathVariable Long id) {
         Recipe recipe = recipeService.getRecipeById(id);
@@ -189,7 +186,7 @@ public class RegisteredController {
         recipeService.save(recipe);
         List<Recipe> listRecipes = searchService.listAll("");
         model.addAttribute("recipes", listRecipes);
-        return "/registered/view-recipe";
+        return "/registered/view-created-recipes";
     }
 
     @RequestMapping({"/view-steps/{id}"})
@@ -199,43 +196,49 @@ public class RegisteredController {
         return "registered/view-steps";
     }
 
+
+    @RequestMapping({ "/create-event", "create-event.html"})
+    public String createEvent(Model model) {
+        Event event = new Event();
+        model.addAttribute("event", event);
+        model.addAttribute("meals", mealService.findAll());
+        return "registered/create-event";
+    }
+
+    @PostMapping(value = "/saveEvent")
+    public String saveEvent(Model model, Event event, Authentication authentication) {
+        eventService.save(event);
+        model.addAttribute("events", eventService.findAll());
+        return "/registered/view-events";
+    }
+
     @RequestMapping({"/view-events", "view-events.html"})
     public String viewEvents(Model model, Authentication authentication) {
-        List<Event> listEvents = eventRepository.findEventByUser(authentication.getName());//service.listAllEvents("");
         model.addAttribute("user", userService.getUserByUsername(authentication.getName()));
-        model.addAttribute("events", listEvents);
+        model.addAttribute("events", eventService.findAll());
         return "registered/view-events";
     }
 
-    @RequestMapping({"/update-event/{id}", "update-event.html"})
-    public String updateView(Model model, Authentication authentication, @PathVariable("id") String id) {
-        System.out.println(id);
-        Long id_ = Long.valueOf(id);
-        Event event = searchRepository.findEventById(id_);
+    @RequestMapping({"/update-event/{id}"})
+    public String updateView(Model model, @PathVariable Long id) {
+        Event event = eventService.getEventById(id);
         model.addAttribute("event", event);
+        model.addAttribute("meals", mealService.findAll());
         return "registered/update-event";
     }
 
     @PostMapping(value = "/updateEvent")
-    public String updateEvent(HttpServletRequest request, Event event, Authentication authentication, Model model) {
-        event.setUser(userService.getUserByUsername(authentication.getName()));
-        String newName = request.getParameter("name");
-        event.setName(newName);
-        eventRepository.updateEvent(event.getId(), newName);
-        List<Event> listEvents = eventRepository.findEventByUser(authentication.getName());//service.listAllEvents("");
+    public String updateEvent(Event event, Authentication authentication, Model model) {
+        eventService.save(event);
         model.addAttribute("user", userService.getUserByUsername(authentication.getName()));
-        model.addAttribute("events", listEvents);
+        model.addAttribute("events", eventService.findAll());
         return "registered/view-events";
     }
 
-    @RequestMapping({"/delete-event/{id}", "view-events.html"})
-    public String deleteEvent(Model model, Authentication authentication, @PathVariable("id") String id) {
-
-        System.out.println(id);
-        Long id_ = Long.valueOf(id);
-        eventRepository.deleteById(id_);
-        List<Event> listEvents = searchService.listAllEvents("");
-        model.addAttribute("events", listEvents);
+    @RequestMapping({"/delete-event/{id}"})
+    public String deleteEvent(Model model, @PathVariable Long id) {
+        eventService.deleteById(id);
+        model.addAttribute("events", eventService.findAll());
         return "registered/view-events";
     }
 }
