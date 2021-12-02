@@ -17,7 +17,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface SearchRepository extends JpaRepository<Recipe, Long> {
-    @Query("SELECT r FROM Recipe r WHERE CONCAT(r.name, r.ingredients) LIKE %?1%")
+    @Query("SELECT r FROM Recipe r WHERE LOWER(CONCAT(r.name, r.ingredients)) LIKE LOWER(concat('%', concat(:keyword, '%')))")
     List<Recipe> search(String keyword);
 
     @Query("SELECT r FROM Recipe r WHERE r.author.username LIKE %?1%")
