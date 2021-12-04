@@ -8,17 +8,7 @@
  **********************************************************************************/
 package ca.gbc.comp3095.recipe.model;
 
-import javax.persistence.Id;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToMany;
-import javax.persistence.Column;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -50,6 +40,9 @@ public class User {
 
     @OneToMany(mappedBy = "recipe")
     private Set<Meal> meals;
+
+    @Lob
+    private Byte[] image;
 
     public User() {
     }
@@ -173,6 +166,14 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(Byte[] image) {
+        this.image = image;
     }
 
     @Override

@@ -45,6 +45,9 @@ public class Recipe {
     @JoinColumn(name = "instructions_id", referencedColumnName = "id")
     private Instructions steps;
 
+    @Lob
+    private Byte[] image;
+
     public Recipe() {
     }
 
@@ -149,6 +152,14 @@ public class Recipe {
 
     public void setSteps(Instructions steps) {
         this.steps = steps;
+    }
+
+    public Byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(Byte[] image) {
+        this.image = image;
     }
 
     @Override
