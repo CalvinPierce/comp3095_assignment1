@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/registered/**").hasAnyAuthority("user")
-                .antMatchers("/h2-console/**", "/", "/register", "/login", "/save", "/reset").permitAll().anyRequest().authenticated().and().formLogin()
+                .antMatchers("/h2-console/**", "/", "/register", "/login", "/save", "/reset", "/static/**").permitAll().anyRequest().authenticated().and().formLogin()
                 .loginPage("/login").usernameParameter("username").passwordParameter("password")
                 .permitAll()
                 .defaultSuccessUrl("/registered/index", true)

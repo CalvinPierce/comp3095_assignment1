@@ -14,6 +14,7 @@ import ca.gbc.comp3095.recipe.model.Recipe;
 import ca.gbc.comp3095.recipe.model.User;
 import ca.gbc.comp3095.recipe.repositories.*;
 import ca.gbc.comp3095.recipe.services.*;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,8 +23,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Date;
 import java.util.Objects;
@@ -240,5 +246,68 @@ public class RegisteredController {
         eventService.deleteById(id);
         model.addAttribute("events", eventService.findAll());
         return "registered/view-events";
+    }
+
+    @GetMapping("{id}/image")
+    public String showUploadForm(@PathVariable Long id, Model model){
+        Recipe recipe = recipeService.getRecipeById(id);
+        model.addAttribute("recipe", recipe);
+        return "registered/recipe-image-form";
+    }
+
+    @PostMapping("{id}/image")
+    public String handleImagePost(@PathVariable Long id, @RequestParam("imagefile") MultipartFile file, Model model, Authentication authentication) throws IOException {
+        recipeService.saveImage(id, file);
+        model.addAttribute("userRecipes", searchRepository.findByUsername(authentication.getName()));
+        return "redirect:/registered/view-created-recipes";
+    }
+
+    @GetMapping("{id}/recipeimage")
+    public void renderImageFromDB(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        Recipe recipe = recipeService.getRecipeById(id);
+
+        if (recipe.getImage() != null) {
+            byte[] byteArray = new byte[recipe.getImage().length];
+            int i = 0;
+
+            for (Byte wrappedByte : recipe.getImage()){
+                byteArray[i++] = wrappedByte; //auto unboxing
+            }
+
+            response.setContentType("image/jpeg");
+            InputStream is = new ByteArrayInputStream(byteArray);
+            IOUtils.copy(is, response.getOutputStream());
+        }
+    }
+
+    @GetMapping("{id}/userImage")
+    public String showUserImageUploadForm(@PathVariable Long id, Model model){
+        User user = userService.getUserById(id);
+        model.addAttribute("user", user);
+        return "registered/user-image-form";
+    }
+
+    @PostMapping("{id}/userImage")
+    public String handleUserImagePost(@PathVariable Long id, @RequestParam("imagefile") MultipartFile file) throws IOException {
+        userService.saveImage(id, file);
+        return "redirect:/registered/view-profile";
+    }
+
+    @GetMapping("{id}/getUserImage")
+    public void renderUserImageFromDB(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        User user = userService.getUserById(id);
+
+        if (user.getImage() != null) {
+            byte[] byteArray = new byte[user.getImage().length];
+            int i = 0;
+
+            for (Byte wrappedByte : user.getImage()){
+                byteArray[i++] = wrappedByte; //auto unboxing
+            }
+
+            response.setContentType("image/jpeg");
+            InputStream is = new ByteArrayInputStream(byteArray);
+            IOUtils.copy(is, response.getOutputStream());
+        }
     }
 }

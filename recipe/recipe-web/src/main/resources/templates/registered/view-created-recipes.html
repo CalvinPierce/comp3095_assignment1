@@ -17,6 +17,7 @@
     <table class="table">
         <thead>
         <tr>
+            <th>Photo</th>
             <th>Name</th>
             <th>Prep Time</th>
             <th>Cook Time</th>
@@ -29,6 +30,9 @@
         </thead>
         <tbody>
         <tr th:each="recipe :${userRecipes}">
+            <td><img src="../../static/images/pancakes.jpg"
+                     th:src="@{'/registered/' + ${recipe.id} + '/recipeimage'}"
+                     width="200" height="200" alt="recipe photo"></td>
             <td th:text="${recipe.name}"></td>
             <td th:text="${recipe.prepTime} + ' minutes'"></td>
             <td th:text="${recipe.cookTime} + ' minutes'"></td>
@@ -40,6 +44,11 @@
             <td>
                 <a th:href="@{'/registered/edit-recipe/' + ${recipe.id}}">
                     <button class="btn btn-lg btn-dark" type="submit" th:text="'Edit'"></button>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{'/registered/' + ${recipe.id} +'/image'}">
+                    <button class="btn btn-lg btn-dark" type="submit" th:text="'Change Photo'"></button>
                 </a>
             </td>
             <td>

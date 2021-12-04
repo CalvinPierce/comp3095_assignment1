@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -37,6 +39,18 @@ public class RecipeService {
         recipe.setAuthor(userRepository.getUserByUsername(authentication.getName()));
         recipe.setDateAdded(LocalDate.now());
         recipe.setTotalTime(recipe.getPrepTime() + recipe.getCookTime());
+        recipeRepository.save(recipe);
+    }
+
+    public void saveImage(Long id, MultipartFile file) throws IOException {
+        Recipe recipe = recipeRepository.getRecipeById(id);
+        Byte[] bytes = new Byte[file.getBytes().length];
+        int i = 0;
+        for (Byte b : file.getBytes()){
+            bytes[i++] = b;
+        }
+        recipe.setImage(bytes);
+
         recipeRepository.save(recipe);
     }
 }
